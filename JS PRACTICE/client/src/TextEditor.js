@@ -17,7 +17,7 @@ const TOOLBAR_OPTIONS = [
 
 export default function TextEditor() {
     const [socket, setSocket] = useState()
-    userEffect(() => {
+    useEffect(() => {
         const socket = io("http://localhost:3000")
 
         return () => {
