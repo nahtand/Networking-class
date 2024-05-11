@@ -6,10 +6,11 @@ import 'codemirror/addon/edit/closetag'
 import 'codemirror/addon/edit/closebrackets'
 import CodeMirror from "codemirror"
 import io from 'socket.io-client'
-//import { Controlled as ControlledEditor} from 'react-codemirror2'
+import {useParams} from 'react-router-dom'
 
 const CodeEditor = () => {
-  
+  const {id: documentId} = useParams()
+ 
   useEffect(() => {
     //text editor properties
     const editor = CodeMirror.fromTextArea(
@@ -18,10 +19,30 @@ const CodeEditor = () => {
         lineNumbers: true,
         keymap: 'sublime',
         theme: 'material',
+        autoCloseTags: true,
+        autoCloseBrackets: true,
         mode: 'python',
       }
     )
     
+    editor.setSize(null, "100%")
+
+    //sets websocket
+    const socket = io('http://localhost:3001/', {
+      transports: ['websocket']
+    })
+
+    if (socket == null) return
+
+    //if a document is on the same id it will set the data
+    socket.once("load-document", data => {
+      editor.setValue(data)
+      
+    })
+    //sends out document id
+    socket.emit('get-doc', documentId)
+
+
     //sends out changes
     editor.on('change', (instance, changes) => {
       const {origin} = changes
@@ -30,11 +51,7 @@ const CodeEditor = () => {
       }
     })
 
-    //sets websocket
-    const socket = io('http://localhost:3001/', {
-      transports: ['websocket']
-    })
-
+    
     //recieves changes and inserts them into the doc
     socket.on('receive-changes', delta => {
       editor.setValue(delta)
@@ -42,11 +59,16 @@ const CodeEditor = () => {
 
   }, [])
 
-
   return (
-    <div>
-      <textarea id="codemirror"/>
+    <div className = "editor_container">
+      <div className = "editor-Title">
+        Using python
+      </div>
+      <div style = {{height: "600px"}}>
+        <textarea id="codemirror"></textarea>
+      </div>
     </div>
+    
   )
 }
 
