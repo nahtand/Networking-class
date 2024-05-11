@@ -8,12 +8,3 @@ body {
     margin: 0;
 
 }
-
-.container .ql-editor {
-    width: 8.5in;
-    min-height: 11in;
-    padding: 1in;
-    margin: 1rem;
-    box-shadow: 0 0 5px 0 rgb(254, 209, 223);
-    background-color: rgb(250, 234, 237);
-}
