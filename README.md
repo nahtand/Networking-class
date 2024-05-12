@@ -2,6 +2,8 @@
 
 Codebros is a code editor with collaborative features, similar to google docs or replit
 
+(https://www.youtube.com/watch?v=0XOAz2Qx9Uw)
+
 # how to run
 
 
@@ -35,7 +37,7 @@ Codebros is a code editor with collaborative features, similar to google docs or
 
   - start server
     ```
-    npm run devstart
+    npm run devStart
     ```
 
 ## 3. To edit the same code file, make sure the document id name is the same on both brosers 
